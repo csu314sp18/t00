@@ -12,7 +12,7 @@
     <groupId>com.tripco.t00</groupId>
     <artifactId>server</artifactId>
     <packaging>jar</packaging>
-    <version>0.1</version>
+    <version>1.1</version>
     <name>t00</name>
     <url>https://github.com/csu314sp18/repo-base</url>
 
@@ -21,6 +21,9 @@
         <resources>
             <resource>
                 <directory>../client_bundle</directory>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
         <plugins>

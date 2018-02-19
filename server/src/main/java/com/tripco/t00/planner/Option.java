@@ -6,7 +6,11 @@ package com.tripco.t00.planner;
  */
 public class Option {
 
-  public String distance;
-  public String optimization;
+  private String distance;
+  private String optimization;
+
+  public String distance() { return distance; }
+
+  public String optimization() { return optimization; }
 
 }

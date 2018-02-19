@@ -4,7 +4,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.tripco.t00.server.HTTP;
+import java.io.InputStreamReader;
 import spark.Request;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -36,9 +40,61 @@ public class Trip {
    * @return
    */
   private String svg() {
+    String map = "<svg\n"
+        + "   xmlns:svg=\"http://www.w3.org/2000/svg\"\n"
+        + "   xmlns=\"http://www.w3.org/2000/svg\"\n"
+        + "   version=\"1.0\"\n"
+        + "   width=\"1066.6073\"\n"
+        + "   height=\"783.0824\"\n"
+        + "   id=\"svg0001\"\n> "
+        + "  <g>"+background()+"</g>\n"
+        + "  <g>"+tour()+"</g>\n"
+        + "</svg>\n";
 
-    // hardcoded example
-    return "<svg width=\"1920\" height=\"960\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:svg=\"http://www.w3.org/2000/svg\"><!-- Created with SVG-edit - http://svg-edit.googlecode.com/ --> <g> <g id=\"svg_4\"> <svg id=\"svg_1\" height=\"960\" width=\"1920\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\"> <g id=\"svg_2\"> <title>Layer 1</title> <rect fill=\"rgb(119, 204, 119)\" stroke=\"black\" x=\"0\" y=\"0\" width=\"1920\" height=\"960\" id=\"svg_3\"/> </g> </svg> </g> <g id=\"svg_9\"> <svg id=\"svg_5\" height=\"480\" width=\"960\" y=\"240\" x=\"480\" xmlns:svg=\"http://www.w3.org/2000/svg\" xmlns=\"http://www.w3.org/2000/svg\"> <g id=\"svg_6\"> <title>Layer 2</title> <polygon points=\"0,0 960,0 960,480 0,480\" stroke-width=\"12\" stroke=\"brown\" fill=\"none\" id=\"svg_8\"/> <polyline points=\"0,0 960,480 480,0 0,480 960,0 480,480 0,0\" fill=\"none\" stroke-width=\"4\" stroke=\"blue\" id=\"svg_7\"/> </g> </svg> </g> </g> </svg>";
+    return map;
+  }
+
+  private String tour() {
+    // uses a transform so we can simply specify latitude and longitude
+    String border = "<polyline style=\"fill:none;stroke:blue;stroke-width:0.02\""
+        + " points=\"-109,41 -102,41 -102,37 -109,37 -109,41\"/>\n";
+
+    String path = "<polyline style=\"fill:none;stroke:purple;stroke-width:0.02\""
+        + " points=\"";
+    if (places != null) {
+      for (int i = 0; i < places.size(); i++) {
+        Place p = places.get(i);
+        path += p.degreesLongitude() + "," + p.degreesLatitude() + " ";
+      }
+      path += places.get(0).degreesLongitude() + "," + places.get(0).degreesLatitude();
+    }
+    path += "\"/>\n";
+
+    return "<svg\n >\n"
+        + "   xmlns:svg=\"http://www.w3.org/2000/svg\"\n"
+        + "   xmlns=\"http://www.w3.org/2000/svg\"\n"
+        + "   version=\"1.0\"\n"
+        + "   width=\"1066.6073\"\n"
+        + "   height=\"783.0824\"\n"
+        + "   id=\"svg0002\"\n> "
+        + "  <g transform=\"matrix(142.14,0,0,-177.5,15528.57,7312.5)\">\n"
+        + border
+        + path
+        + "  </g>\n"
+        + "\n</svg>\n";
+  }
+
+  private String background() {
+    InputStream is = getClass().getResourceAsStream("/colorado.svg");
+    BufferedReader br = new BufferedReader(new InputStreamReader(is));
+    String svg = "";  // to accumulate the svg
+    try {
+      for (String line = br.readLine(); line != null; line = br.readLine()) {
+        svg += line;
+      }
+    } catch (IOException e)
+    { };
+    return svg;
   }
 
   /**
@@ -50,14 +106,17 @@ public class Trip {
 
     ArrayList<Integer> dist = new ArrayList<Integer>();
 
-    // hardcoded example
-    dist.add(12);
-    dist.add(23);
-    dist.add(34);
-    dist.add(45);
-    dist.add(65);
-    dist.add(19);
+    if (places == null || places.size() == 0)
+      return dist;
+    else if (places.size() == 1) {
+      dist.add(0);
+    } else if (places.size() > 1) {
+      for (int i = 1; i < places.size(); i++) {
+        dist.add(places.get(i - 1).milesTo(places.get(i)));
 
+      }
+      dist.add(places.get(places.size() - 1).milesTo(places.get(0)));
+    }
     return dist;
   }
 

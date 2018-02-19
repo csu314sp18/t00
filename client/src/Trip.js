@@ -29,12 +29,16 @@ class Trip extends Component {
           "optimization":"none"
         },
         "places"  : [
-          {"id":"dnvr", "name":"Denver", "latitude": "", "longitude": ""},
-          {"id":"bldr", "name":"Boulder", "latitude": "", "longitude": ""},
-          {"id":"foco", "name":"Fort Collins", "latitude": "", "longitude": ""},
-          {"id":"grly", "name":"Greeley", "latitude": "", "longitude": ""},
-          {"id":"fomo", "name":"Fort Morgan", "latitude": "", "longitude": ""},
-          {"id":"frst", "name":"Firestone", "latitude": "", "longitude": ""}
+          {"id":"dnvr", "name":"Denver", "latitude": "39.739236", "longitude": "-104.990251"},
+          {"id":"bldr", "name":"Boulder", "latitude": "40.014986", "longitude": "-105.270546"},
+          {"id":"foco", "name":"Fort Collins", "latitude": "40.585260", "longitude": "-105.084423"},
+          {"id":"grly", "name":"Greeley", "latitude": "40.423314", "longitude": "-104.709132"},
+          {"id":"fomo", "name":"Fort Morgan", "latitude": "40.250258", "longitude": "-103.799951"},
+          {"id":"frst", "name":"Firestone", "latitude": "40.112484", "longitude": "-104.936644"},
+          {"id":"vail", "name":"Vail", "latitude": "39.640264", "longitude": "-106.374195"},
+          {"id":"gunn", "name":"Gunnison", "latitude": "38.545825", "longitude": "-106.925321"},
+          {"id":"stmb", "name":"Steamboat Springs", "latitude": "40.484977", "longitude": "-106.831716"},
+          {"id":"aspn", "name":"Aspen", "latitude": "39.191098", "longitude": "-106.8175395"}
           ]
       };
 
