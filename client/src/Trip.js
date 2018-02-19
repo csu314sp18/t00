@@ -25,7 +25,7 @@ class Trip extends Component {
         "type"    : "trip",
         "title"   : "PLANNING",
         "options" : { 
-          "distance":"miles",
+          "distance":"kilometers",
           "optimization":"none"
         },
         "places"  : [

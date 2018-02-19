@@ -112,8 +112,10 @@ public class Trip {
       dist.add(0);
     } else if (places.size() > 1) {
       for (int i = 1; i < places.size(); i++) {
-        dist.add(places.get(i - 1).milesTo(places.get(i)));
-
+        if (options.miles())
+          dist.add(places.get(i - 1).milesTo(places.get(i)));
+        else
+          dist.add(places.get(i - 1).kilometersTo(places.get(i)));
       }
       dist.add(places.get(places.size() - 1).milesTo(places.get(0)));
     }

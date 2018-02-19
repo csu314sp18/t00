@@ -9,8 +9,16 @@ public class Option {
   private String distance;
   private String optimization;
 
-  public String distance() { return distance; }
+  public boolean miles() {
+    return distance.equals("miles");
+  }
 
-  public String optimization() { return optimization; }
+  public boolean kilometers() {
+    return distance.equals("kilometers");
+  }
+
+  public String optimization() {
+    return optimization;
+  }
 
 }
