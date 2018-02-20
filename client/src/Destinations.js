@@ -13,16 +13,22 @@ class Destinations extends Component {
     this.loadTFFI = this.loadTFFI.bind(this);
   }
 
+
   loadTFFI(event) {
-    console.log(event.target.files[0].name);
-    // now you need to read the file and create a JSON.
-    // then you need to set the trip property
-    // this.props.updateTrip(??);
+    var file = event.target.files[0];
+    var fr = new FileReader();
+    fr.onload = (function () {
+      return function(e) {
+        let tffi = JSON.parse(e.target.result);
+        this.props.updateTrip(tffi);
+      };
+    })(file).bind(this);
+    fr.readAsText(file, "UTF-8");
   }
 
   render() {
     // need to clean up the button
-    const count = 99; // need to count the number in the trip
+    const count = this.props.trip.places.length; // need to count the number in the trip
     return (
         <div id="destinations" className="card">
           <div className="card-header bg-info text-white">

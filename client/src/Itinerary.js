@@ -8,7 +8,6 @@ class Itinerary extends Component {
   }
 
   createTables () {
-    let units = this.props.trip.options.distance;
     let dests = this.props.trip.places.map((item) => <td>{item.name}</td>);
     dests.push(dests[0]);
 
@@ -23,17 +22,16 @@ class Itinerary extends Component {
     });
     let cumdis = cum.map((item) => <td>{item}</td>);
 
-    console.log(this.props.trip);
-
-    return {sum, units, dests, dists, cumdis, };
+    return {sum, dests, dists, cumdis };
   }
 
   render() {
+    let units = this.props.trip.options.distance;
     let table = this.createTables();
 
     return(
         <div id="itinerary">
-          <h4>Round trip distance of {table.sum} {table.units}. </h4>
+          <h4>Round trip distance of {table.sum} {units}. </h4>
           <table className="table table-responsive table-bordered">
             <thead>
             <tr className="table-info">

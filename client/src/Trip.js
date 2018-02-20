@@ -13,6 +13,7 @@ class Trip extends Component {
 
     this.plan = this.plan.bind(this);
     this.saveTFFI = this.saveTFFI.bind(this);
+    this.destroyClickedElement = this.destroyClickedElement.bind(this);
   }
 
   /* Sends a request to the server with the destinations and options.
@@ -20,34 +21,10 @@ class Trip extends Component {
    * state for this object.
    */
   fetchResponse(){
-    // need to get the request body from the trip in state object.
-    let requestBody = {
-        "type"    : "trip",
-        "title"   : "PLANNING",
-        "options" : { 
-          "distance":"kilometers",
-          "optimization":"none"
-        },
-        "places"  : [
-          {"id":"dnvr", "name":"Denver", "latitude": "39.739236", "longitude": "-104.990251"},
-          {"id":"bldr", "name":"Boulder", "latitude": "40.014986", "longitude": "-105.270546"},
-          {"id":"foco", "name":"Fort Collins", "latitude": "40.585260", "longitude": "-105.084423"},
-          {"id":"grly", "name":"Greeley", "latitude": "40.423314", "longitude": "-104.709132"},
-          {"id":"fomo", "name":"Fort Morgan", "latitude": "40.250258", "longitude": "-103.799951"},
-          {"id":"frst", "name":"Firestone", "latitude": "40.112484", "longitude": "-104.936644"},
-          {"id":"vail", "name":"Vail", "latitude": "39.640264", "longitude": "-106.374195"},
-          {"id":"gunn", "name":"Gunnison", "latitude": "38.545825", "longitude": "-106.925321"},
-          {"id":"stmb", "name":"Steamboat Springs", "latitude": "40.484977", "longitude": "-106.831716"},
-          {"id":"aspn", "name":"Aspen", "latitude": "39.191098", "longitude": "-106.8175395"}
-          ]
-      };
-
-    console.log(process.env.SERVICE_URL);
-    console.log(requestBody);
-
-    return fetch(process.env.SERVICE_URL + '/plan', {
+    const serverURL = "http://" + location.host + '/plan';
+    return fetch(serverURL, {
       method:"POST",
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify(this.props.trip)
     });
   }
 
@@ -65,6 +42,26 @@ class Trip extends Component {
   /* Saves the map and itinerary to the local file system.
    */
   saveTFFI(){
+
+    var textToSave = JSON.stringify(this.props.trip);
+    var textToSaveAsBlob = new Blob([textToSave], {type:"text/plain"});
+    var textToSaveAsURL = window.URL.createObjectURL(textToSaveAsBlob);
+    var fileNameToSaveAs = "trip.json";
+
+    var downloadLink = document.createElement("a");
+    downloadLink.download = fileNameToSaveAs;
+    downloadLink.innerHTML = "Download File";
+    downloadLink.href = textToSaveAsURL;
+    downloadLink.onclick = this.destroyClickedElement;
+    downloadLink.style.display = "none";
+    document.body.appendChild(downloadLink);
+
+    downloadLink.click();
+  }
+
+  destroyClickedElement(event)
+  {
+    document.body.removeChild(event.target);
   }
 
   /* Renders the buttons, map, and itinerary.
