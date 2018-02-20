@@ -24,8 +24,6 @@ class Application extends Component {
   }
 
   updateTrip(tffi){
-    console.log("updateTrip");
-    console.log(tffi);
     this.setState({trip:tffi});
   }
 
