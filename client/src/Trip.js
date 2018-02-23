@@ -41,6 +41,8 @@ class Trip extends Component {
 
   /* Saves the map and itinerary to the local file system.
    */
+
+
   saveTFFI(){
 
     var textToSave = JSON.stringify(this.props.trip);
@@ -79,7 +81,7 @@ class Trip extends Component {
               <span className="input-group-btn">
               <button className="btn btn-primary " onClick={this.plan} type="button">Plan</button>
             </span>
-              <input type="text" className="form-control" placeholder="Trip title..."/>
+              <input type="text" className="form-control" placeholder="Trip title..." value={this.props.trip.title}/>
               <span className="input-group-btn">
               <button className="btn btn-primary " onClick={this.saveTFFI} type="button">Save</button>
             </span>

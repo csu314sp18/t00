@@ -11,18 +11,18 @@ class Destinations extends Component {
   constructor(props) {
     super(props);
     this.loadTFFI = this.loadTFFI.bind(this);
+    this.loadFile = this.loadFile.bind(this);
   }
 
+  loadFile(event) {
+      let tffi = JSON.parse(event.target.result);
+      this.props.updateTrip(tffi);
+  }
 
   loadTFFI(event) {
     var file = event.target.files[0];
     var fr = new FileReader();
-    fr.onload = (function () {
-      return function(e) {
-        let tffi = JSON.parse(e.target.result);
-        this.props.updateTrip(tffi);
-      };
-    })(file).bind(this);
+    fr.onload = this.loadFile;
     fr.readAsText(file, "UTF-8");
   }
 
