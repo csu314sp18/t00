@@ -41,7 +41,7 @@ class Itinerary extends Component {
             </thead>
             <tbody>
             <tr>
-              <th className="table-info align-middle">{table.units}</th>
+              <th className="table-info align-middle">{units}</th>
               {table.dists}
             </tr>
             <tr>

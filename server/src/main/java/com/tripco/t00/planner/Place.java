@@ -12,16 +12,29 @@ public class Place {
 
 
   public int milesTo(Place to) {
-    final double R=3958.7613;
-    return (int) Math.round(R * arc(to));
+    final double R=3958.7613; // *1760.0; // for yards
+    return (int) Math.round(R * vincenty(to));
   }
 
   public int kilometersTo(Place to) {
-    final double R=6371.0088;
-    return (int) Math.round(R * arc(to));
+    final double R=6371.0088; // *1000;  // for meters
+    return (int) Math.round(R * vincenty(to));
   }
 
-  private double arc(Place to) {
+  private double haversine(Place to) {
+    double lat1 = radiansLatitude();
+    double lon1 = radiansLongitude();
+    double lat2 = to.radiansLatitude();
+    double lon2 = to.radiansLongitude();
+    double dLat = lat2 - lat1;
+    double dLon = lon2 - lon1;
+    double a = Math.pow(Math.sin(dLat / 2.0),2.0)
+        + Math.pow(Math.sin(dLon / 2.0),2.0) * Math.cos(lat1) * Math.cos(lat2);
+    double c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1.0-a));
+    return c;
+  }
+
+  private double vincenty(Place to) {
     double lat1 = radiansLatitude();
     double lon1 = radiansLongitude();
     double lat2 = to.radiansLatitude();
@@ -34,6 +47,21 @@ public class Place {
     double c = Math.atan2(num, den);
     return c;
   }
+
+  private double chord(Place to) {
+    double lat1 = radiansLatitude();
+    double lon1 = radiansLongitude();
+    double lat2 = to.radiansLatitude();
+    double lon2 = to.radiansLongitude();
+    double dx = Math.cos(lat2)*Math.cos(lon2) - Math.cos(lat1)*Math.cos(lon1);
+    double dy = Math.cos(lat2)*Math.sin(lon2) - Math.cos(lat1)*Math.sin(lon1);
+    double dz = Math.sin(lat2)-Math.sin(lat1);
+    double chord = Math.sqrt(dx*dx + dy*dy + dz*dz);
+    double c = 2.0*Math.asin(chord/2.0);
+    return c;
+  }
+
+
 
   public double radiansLatitude() {
     return Math.toRadians(degreesLatitude());
