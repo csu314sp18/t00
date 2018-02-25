@@ -117,7 +117,10 @@ public class Trip {
         else
           dist.add(places.get(i - 1).kilometersTo(places.get(i)));
       }
-      dist.add(places.get(places.size() - 1).milesTo(places.get(0)));
+      if (options.miles())
+        dist.add(places.get(places.size() - 1).milesTo(places.get(0)));
+      else
+        dist.add(places.get(places.size() - 1).kilometersTo(places.get(0)));
     }
     return dist;
   }
