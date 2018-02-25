@@ -13,12 +13,12 @@ public class Place {
 
   public int milesTo(Place to) {
     final double R=3958.7613; // *1760.0; // for yards
-    return (int) Math.round(R * vincenty(to));
+    return (int) Math.round(R * chord(to));
   }
 
   public int kilometersTo(Place to) {
     final double R=6371.0088; // *1000;  // for meters
-    return (int) Math.round(R * vincenty(to));
+    return (int) Math.round(R * chord(to));
   }
 
   private double haversine(Place to) {
@@ -56,7 +56,7 @@ public class Place {
     double dx = Math.cos(lat2)*Math.cos(lon2) - Math.cos(lat1)*Math.cos(lon1);
     double dy = Math.cos(lat2)*Math.sin(lon2) - Math.cos(lat1)*Math.sin(lon1);
     double dz = Math.sin(lat2)-Math.sin(lat1);
-    double chord = Math.sqrt(dx*dx + dy*dy + dz*dz);
+    double chord = Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2)+Math.pow(dz,2)); //(dx*dx + dy*dy + dz*dz);
     double c = 2.0*Math.asin(chord/2.0);
     return c;
   }
