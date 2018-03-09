@@ -24,6 +24,17 @@ public class Place {
     return (int) Math.round(R * chord(to));
   }
 
+  public int nauticalMilesTo(Place to) {
+
+    final double R=3440.0695;
+    return (int) Math.round(R * chord(to));
+  }
+
+  public int userDefinedTo(Place to, double R) {
+
+    return (int) Math.round(R * chord(to));
+  }
+
   private double haversine(Place to) {
 
     double lat1 = radiansLatitude();

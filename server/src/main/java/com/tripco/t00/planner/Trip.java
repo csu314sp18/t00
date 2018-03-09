@@ -30,6 +30,14 @@ public class Trip {
    */
   public void plan() {
 
+    if (type == null || !type.equals("trip"))
+      System.out.println("not a trip object");
+
+    if (options == null) {
+      options = new Option("miles","0.0", "", "");
+    }
+    System.out.println(options);
+
     this.map = svg();
     this.distances = legDistances();
 
@@ -105,6 +113,9 @@ public class Trip {
   private ArrayList<Integer> legDistances() {
 
     ArrayList<Integer> dist = new ArrayList<Integer>();
+    double R = 0;
+    if (options.userDefinedUnits())
+      R = options.userDefinedRadius();
 
     if (places == null || places.size() == 0)
       return dist;
@@ -114,13 +125,21 @@ public class Trip {
       for (int i = 1; i < places.size(); i++) {
         if (options.miles())
           dist.add(places.get(i - 1).milesTo(places.get(i)));
-        else
+        else if (options.kilometers())
           dist.add(places.get(i - 1).kilometersTo(places.get(i)));
+        else if (options.nauticalMiles())
+          dist.add(places.get(i - 1).nauticalMilesTo(places.get(i)));
+        else
+          dist.add(places.get(i - 1).userDefinedTo(places.get(i),R));
       }
       if (options.miles())
         dist.add(places.get(places.size() - 1).milesTo(places.get(0)));
-      else
+      else if (options.kilometers())
         dist.add(places.get(places.size() - 1).kilometersTo(places.get(0)));
+      else if (options.nauticalMiles())
+        dist.add(places.get(places.size() - 1).nauticalMilesTo(places.get(0)));
+      else
+        dist.add(places.get(places.size() - 1).userDefinedTo(places.get(0),R));
     }
     return dist;
   }
