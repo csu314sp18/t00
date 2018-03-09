@@ -5,6 +5,7 @@ package com.tripco.t00.planner;
  * There may be other attributes of a place, but these are required to plan a trip.
  */
 public class Place {
+
   private String id;
   private String name;
   private String latitude;
@@ -12,16 +13,19 @@ public class Place {
 
 
   public int milesTo(Place to) {
+
     final double R=3958.7613; // *1760.0; // for yards
     return (int) Math.round(R * chord(to));
   }
 
   public int kilometersTo(Place to) {
+
     final double R=6371.0088; // *1000;  // for meters
     return (int) Math.round(R * chord(to));
   }
 
   private double haversine(Place to) {
+
     double lat1 = radiansLatitude();
     double lon1 = radiansLongitude();
     double lat2 = to.radiansLatitude();
@@ -35,6 +39,7 @@ public class Place {
   }
 
   private double vincenty(Place to) {
+
     double lat1 = radiansLatitude();
     double lon1 = radiansLongitude();
     double lat2 = to.radiansLatitude();
@@ -49,6 +54,7 @@ public class Place {
   }
 
   private double chord(Place to) {
+
     double lat1 = radiansLatitude();
     double lon1 = radiansLongitude();
     double lat2 = to.radiansLatitude();
@@ -56,30 +62,33 @@ public class Place {
     double dx = Math.cos(lat2)*Math.cos(lon2) - Math.cos(lat1)*Math.cos(lon1);
     double dy = Math.cos(lat2)*Math.sin(lon2) - Math.cos(lat1)*Math.sin(lon1);
     double dz = Math.sin(lat2)-Math.sin(lat1);
-    double chord = Math.sqrt(Math.pow(dx,2)+Math.pow(dy,2)+Math.pow(dz,2)); //(dx*dx + dy*dy + dz*dz);
+    double chord = Math.sqrt(dx*dx + dy*dy + dz*dz);
     double c = 2.0*Math.asin(chord/2.0);
     return c;
   }
 
-
-
   public double radiansLatitude() {
+
     return Math.toRadians(degreesLatitude());
   }
 
   public double radiansLongitude() {
+
     return Math.toRadians(degreesLongitude());
   }
 
   public double degreesLatitude() {
+
     return degrees(latitude);
   }
 
   public double degreesLongitude() {
+
     return degrees(longitude);
   }
 
   private double degrees(String dms) {
+
     double dd = 0;
     String[] d = dms.split("°");
     dd = Double.parseDouble(d[0]);

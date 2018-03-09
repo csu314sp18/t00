@@ -31,6 +31,7 @@ class Trip extends Component {
   async plan(){
     try {
       let serverResponse = await this.fetchResponse();
+      console.log(serverResponse.headers);
       let tffi = await serverResponse.json();
       console.log(tffi);
       this.props.updateTrip(tffi);
