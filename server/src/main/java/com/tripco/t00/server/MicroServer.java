@@ -1,6 +1,7 @@
 package com.tripco.t00.server;
 
 import com.tripco.t00.planner.Plan;
+import com.tripco.t00.planner.Search;
 
 import spark.Request;
 import spark.Response;
@@ -38,8 +39,10 @@ public class MicroServer {
     get("/echo", this::echo);
     get("/hello/:name", this::hello);
     get("/team", this::team);
+    get("/config", this::config);
     // client is sending data, so a HTTP POST is used instead of a GET
     post("/plan", this::plan);
+    //post("/query", this::query);
 
     System.out.println("\n\nServer running on port: " + this.port + "\n\n");
   }
@@ -55,6 +58,19 @@ public class MicroServer {
     response.type("text/html");
 
     return "<html><head></head><body><h1>"+name+" Micro-server on port "+port+"</h1></body></html>";
+  }
+
+  /** A REST API that returns the client configuration.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String config(Request request, Response response) {
+
+    response.type("application/json");
+
+    return "{ \"version\" : 2, \"type\" : \"config\", \"optimization\" }";
   }
 
   /** A REST API that echos the client request.
@@ -83,7 +99,6 @@ public class MicroServer {
     return Greeting.html(request.params(":name"));
   }
 
-
   /** A REST API to support trip planning.
    *
    * @param request
@@ -95,6 +110,19 @@ public class MicroServer {
     response.type("application/json");
 
     return (new Plan(request)).getTrip();
+  }
+
+  /** A REST API to query the databasse.
+   *
+   * @param request
+   * @param response
+   * @return
+   */
+  private String query(Request request, Response response) {
+
+    response.type("application/json");
+
+    return (new Search(request)).getResults();
   }
 
   /** A REST API that returns the team information associated with the server.

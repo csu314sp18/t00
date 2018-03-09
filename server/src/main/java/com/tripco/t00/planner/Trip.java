@@ -16,7 +16,7 @@ import java.util.ArrayList;
  *
  */
 public class Trip {
-  // The variables in this class should reflect TFFI.
+  // The variables in this class should reflect a trip TFFI.
   public String type;
   public String title;
   public Option options;
