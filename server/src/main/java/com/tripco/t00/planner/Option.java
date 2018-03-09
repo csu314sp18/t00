@@ -14,6 +14,7 @@ public class Option {
   }
 
   public boolean kilometers() {
+
     return distance.equals("kilometers");
   }
 
