@@ -8,7 +8,6 @@ import spark.Response;
 import spark.Spark;
 import static spark.Spark.*;
 
-
 /** A simple micro-server for the web.  Just what we need, nothing more.
  *
  */
@@ -24,6 +23,7 @@ public class MicroServer {
    * @param name
    */
   MicroServer(int port, String name) {
+
     this.port = port;
     this.name = name;
 
@@ -109,7 +109,7 @@ public class MicroServer {
 
     response.type("application/json");
 
-    return (new Plan(request)).getTrip();
+    return (new Plan(request)).toString();
   }
 
   /** A REST API to query the database.
@@ -122,7 +122,7 @@ public class MicroServer {
 
     response.type("application/json");
 
-    return (new Search(request)).getResults();
+    return (new Search(request)).toString();
   }
 
   /** A REST API that returns the team information associated with the server.
