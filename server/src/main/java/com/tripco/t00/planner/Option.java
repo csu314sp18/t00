@@ -51,7 +51,7 @@ public class Option {
 
   @Override
   public String toString() {
-    return "{ options: { optimization:"+optimization+", distance:"+distance
-      +", units:"+userUnit+", radius:"+userRadius+" }}";
+    return "options: { optimization:"+optimization+", distance:"+distance
+      +", units:"+userUnit+", radius:"+userRadius+" }";
   }
 }

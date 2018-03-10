@@ -112,7 +112,7 @@ public class MicroServer {
     return (new Plan(request)).getTrip();
   }
 
-  /** A REST API to query the databasse.
+  /** A REST API to query the database.
    *
    * @param request
    * @param response
